@@ -84,7 +84,7 @@ print("Rating std: %.2f" %df_team_rating["rating"].std())
 print("Rating mid: %.2f" %df_team_rating["rating"].median())
 print("Rating first quartile: %.2f" %df_team_rating["rating"].quantile(.25))
 print("Rating second quartile: %.2f" %df_team_rating["rating"].quantile(.5))
-print("Rating second quartile: %.2f" %df_team_rating["rating"].quantile(.55))
+print("Rating third quartile: %.2f" %df_team_rating["rating"].quantile(.55))
 print("Rating fourth quartile: %.2f" %df_team_rating["rating"].quantile(1))
 # [6.15,6.5,6.575,6.72,7.1]
 
