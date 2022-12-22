@@ -68,11 +68,21 @@ plt.ylabel("Count",size=10)
 plt.title("Player rating distribution",size=15)
 plt.show()
 
+#%%
+#Player average playing time
+
+time_avg=player_df['minsPlayed'].mean(axis = 0)
+print('Player average playing time :',time_avg)
 
 #%%
 #Clean data fram as df_team_rating(Simplfy team name & group by nation)
 df_team_rating = player_df.copy()
 df_team_rating["teamName"]=country_short
+
+#%%
+#Filter player that play time over time_avg
+# df_team_rating=df_team_rating[df_team_rating['minsPlayed']>=time_avg]
+# print(df_team_rating)
 
 #Group by "teamName"
 df_team_rating=df_team_rating.groupby("teamName").mean()
@@ -90,7 +100,7 @@ print("Rating fourth quartile: %.2f" %df_team_rating["rating"].quantile(1))
 
 #%%
 #Seperate team in different level by rating
-bins=[6.15,6.5,6.575,6.72,7.1]
+bins=[6.15,6.24,6.505,6.72,7.1]
 labels = ['Poor', 'Bad', 'Good', 'Great']
 colors = ['red','orange','lightgreen','darkgreen']
 df_team_ranting_group = pd.DataFrame({'rating':df_team_rating["rating"],
@@ -98,7 +108,7 @@ df_team_ranting_group = pd.DataFrame({'rating':df_team_rating["rating"],
                                                       bins=bins, labels=labels),
                                       'colors':pd.cut(df_team_rating["rating"],
                                                       bins=bins, labels=colors)})
-# print(df_team_ranting_group)
+#print(df_team_ranting_group)
 #Draw bar chart by team average rating
 fig, ax = plt.subplots(figsize=(12, 5), tight_layout=True)
 labels=list(df_team_rating.index)
@@ -118,13 +128,14 @@ by_label = dict(zip(labels, handles))
 plt.legend(by_label.values(), by_label.keys(),fontsize=15,title='Team perform',title_fontsize=18)
 plt.show()
 
+
 #%%
 #Get best player at each position
 print("Total player for each position :\n",player_df.groupby("positionText").count()["name"])
 
 df_BestPlayer = player_df.copy()
 #playtime over 270 mins
-df_BestPlayer=df_BestPlayer[df_BestPlayer['minsPlayed']>=270]
+df_BestPlayer=df_BestPlayer[df_BestPlayer['minsPlayed']>=time_avg]
 
 df_BestPlayer=df_BestPlayer.sort_values(by=["rating"],ascending=False)
 df_BestPlayer =df_BestPlayer.groupby("positionText")
